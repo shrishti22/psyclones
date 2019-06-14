@@ -65,6 +65,7 @@ public class MainActivity extends AppCompatActivity {
                 j.put("pass",p);
 
                 res=HttpClientConnection.HttpExecute(u1,j);
+                Log.e("Anirudh", "doInBackground: "+j );
             } catch (MalformedURLException e1) {
                 e1.printStackTrace();
             } catch (JSONException e1) {
@@ -75,7 +76,6 @@ public class MainActivity extends AppCompatActivity {
         }
         @Override
         protected void onPostExecute(String status){
-
 
             if(status.equals("ok"))
             {
