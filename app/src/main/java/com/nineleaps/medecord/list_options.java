@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -67,6 +68,7 @@ public class list_options extends ListActivity {
                 jsn.put("pid", pid);
                 jsn.put("date", date);
                 response = HttpClientConnection.HttpExecute(url, jsn);
+                Log.e("Anirudh", "response: "+response );
             }
             catch (MalformedURLException e)
             {
@@ -86,7 +88,7 @@ public class list_options extends ListActivity {
         protected void onPostExecute(String s) {
 
             Toast.makeText(getApplicationContext(), "s="+s, Toast.LENGTH_SHORT).show();
-
+            Log.e("Anirudh", "getdata: "+s );
             if(s.endsWith("null"))
             {
 

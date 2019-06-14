@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -42,9 +43,7 @@ public class activity_user__home extends AppCompatActivity {
                 j.put("uid",user);
                 j.put("pid",pid);
                 res=HttpClientConnection.HttpExecute(u1,j);
-
-
-
+                Log.e("Anirudh", "doInBackground: "+res );
 
             } catch (MalformedURLException e1) {
                 e1.printStackTrace();
@@ -64,7 +63,7 @@ public class activity_user__home extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(),"Login Successful",Toast.LENGTH_LONG).show();
 
                 activity_user__home.user=user;
-               // startActivity(nh);
+                startActivity(next);
             }
             else  if(status.equals("blocked"))
             {
@@ -87,6 +86,7 @@ public class activity_user__home extends AppCompatActivity {
     ListView listView;
     String pid="";
     Intent next,nextiv;
+    Boolean count=false;
     EditText et;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -96,12 +96,18 @@ public class activity_user__home extends AppCompatActivity {
         tv.setText("Welcome "+user);
         b=(Button)findViewById(R.id.btnf);
         pids = new ArrayList<String>();
-        next=new Intent(this,listOfOptionsAdapter.class);
+        next=new Intent(this,list_options.class);
         listView = (ListView) findViewById(R.id.listview);
         b.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new get_patient_list().execute();
+                if(!count){
+                    new get_patient_list().execute();
+                    count=true;
+                }
+                else{
+                    Toast.makeText(getApplicationContext(),"Already fetched updated data",Toast.LENGTH_LONG).show();
+                }
 //                arrayAdapter = new ArrayAdapter<String>(
 //                        User_Home.this,
 //                        R.layout.simlpe_list_item,
@@ -141,7 +147,6 @@ public class activity_user__home extends AppCompatActivity {
             if(!status.equals(""))
             {
                 Toast.makeText(getApplicationContext(),"Alert",Toast.LENGTH_LONG).show();
-
             }
         }
     }
@@ -161,7 +166,7 @@ public class activity_user__home extends AppCompatActivity {
         }
         @Override
         protected void onPostExecute(String status){
-            Toast.makeText(getApplicationContext(),status,Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(),"Successfully fetched data",Toast.LENGTH_LONG).show();
             String s[]=status.split("-");
             for(int i=0;i<s.length;i++)
             {
